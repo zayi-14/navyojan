@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Navyojan</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Carousel Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark px-2 py-3 py-lg-0">
+            <a href="{% url 'registration_app:home' %}" class="navbar-brand ms-4 "><img
+                    src="{% static 'img/navyojan.png'%}" alt="Navyojan Logo" width="100%" height="50px"></a>
+            <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="nav-item ms-auto py-0 navbar-nav dropdown">
+                    <a href="#" class="nav-link nav-item dropdown-toggle " data-bs-toggle="dropdown">All
+                        Scholarships</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 350px; border-radius: 10px;">
+                        {% for allscholarship in allscholarship %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?all_scholarship={{ allscholarship.All_Scholarship }}"
+                                class="dropdown-item">{{ allscholarship.All_Scholarship }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="nav-item navbar-nav dropdown">
+                    <a href="#" class="nav-link dropdown-toggle dropdown-btn" data-bs-toggle="dropdown">States</a>
+                    <div class="dropdown-content dropdown-menu m-0"
+                        style="max-width: 400px; max-height: 350px;border-radius: 10px;">
+                        <ul>
+                            {% for state in states %}
+                            <li><a href="{% url 'Scholarshipapp:scholar_page' %}?state={{ state.States }}"
+                                    class="dropdown-item">{{ state.States }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="nav-item navbar-nav  dropdown">
+                    <a href="#" class="nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 300px;border-radius: 10px;">
+                        {% for category in s_category %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?category={{ category.S_Category }}"
+                                class="dropdown-item">{{ category.S_Category }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="nav-item navbar-nav  dropdown">
+                    <a href="#" class="nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown">Education</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 250px;border-radius: 10px;">
+                        {% for education in education %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?education={{ education.Education }}"
+                                class="dropdown-item">{{ education.Education }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+                <div class="navbar-nav">
+                    <a href="{% url 'Contact_app:contact' %}" class="nav-item nav-link ">Contact</a>
+
+                    {% if request.session.user_id %}
+                    <a href="{% url 'Scholarshipapp:profile' %}" class="nav-item nav-link"><i
+                            class="fa fa-user-tie "></i></a>
+                    <a href="{% url 'registration_app:logout' %}" class="nav-item nav-link">Logout</a>
+                    {% else %}
+                    <a href="{% url 'registration_app:new_login' %}" class="nav-item nav-link"><i
+                            class="fa-solid fa-right-to-bracket fa-xl "></i>
+                        &nbsp;&nbsp;&nbsp;</a>
+                    <!-- <a href="{% url 'registration_app:register' %}" class="nav-item nav-link">Register</a> -->
+                    {% endif %}
+                </div>
+                <!-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></butaton> -->
+                <!-- <a href="https://htmlcodex.com/startup-company-website-template" class="btn btn-primary py-2 px-4 ms-3">Download Pro Version</a> -->
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar end -->
+    {% block content %}
+
+
+
+    <div>
+        <div class="search-input">
+            <form id="search" onsubmit="event.preventDefault(); highlightSearch();">
+                <input type="text" placeholder="Search" id="searchText" 
+                    style="margin-top: 10%; margin-left: 35%; height: 35px; border-radius: 15px; border: 5px solid rgb(2, 204, 147); padding: 15px; width: 25%;" />
+                <button type="submit" style="border: 5px solid rgb(2, 204, 147); border-radius: 15px; padding: 4px; background-color: white;">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+        
+        <br><br>
+        <h5 class="fw-bold text-dark text-uppercase" style="margin-left: 5%;">Advertisement</h5><br>
+        <div class="ad d-flex mb-4" >
+            <!-- <img src="{% static 'img/navyojan.png'%}" alt="For Advertaisment"
+                style="width: 70%; max-height: 30%; object-fit: cover;"> -->
+
+        </div>
+    </div>
+
+    <!-- About Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="section-title position-relative pb-3 mb-3">
+                        <h5 class="fw-bold text-dark text-uppercase">About Us</h5><br>
+                        <h1 style="color: rgb(3, 158, 114);" class="mb-0">We Will Help You To Find The <a href=""
+                                style="color: rgb(250, 104, 0);text-decoration: none;">Scholarship </a> That You Are Fit
+                            For</h1>
+                    </div>
+                    <p class="mb-4 text-dark">
+                        A large segment of india's potential workforce is unemployment.
+                        within scholarship providers and scholarship seekers. As india's largest scholarship listing
+                        portal,
+                        we help more than 1 million students by connecting the right scholarships with the right
+                        students.
+                        Backed by its robust scholarship serach engine, it is the only platform in the country that
+                        allows
+                        both seekers and scholarship providers to access curated scholarship information across the
+                        globe.</p>
+
+                    <div class="row g-0 mb-3">
+                        
+                    </div>
+                    <!-- <div class="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
+                        <div class="bg-dark d-flex align-items-center justify-content-center rounded"
+                            style="width: 50px; height: 50px;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h5 class="mb-2">Call For Query</h5>
+                            <h4 class="text-dark mb-0">+91 8592099199</h4>
+                        </div> 
+                        <div style="margin-left: 13%;">
+                            <img src="{% static 'img/navyojan.png' %}" alt="" style="width: 150px; height: 50px;">
+                        </div>
+                    </div> -->
+                    <div class="d-flex">
+                        <a href="{% url 'registration_app:register'%}" class="btn btn-dark py-3 px-5 mt-3 wow zoomIn"
+                            style="filter: invert(80px); border-radius:8px ; width: 90%;" data-wow-delay="0.9s">Register</a>
+
+                        <!-- <a href="{% url 'registration_app:register' %}" class="btn btn-dark py-3 px-5 mt-4 wow zoomIn"
+                            style="filter: invert(80px); border-radius:8px; margin-left: 20% ;"
+                            data-wow-delay="0.9s">Register</a> -->
+
+                    </div>
+                </div>
+                <div class="col-lg-5" style="height: 400px; ">
+                    <div class="position-relative h-100">
+                        <p
+                            style="margin-top: 70px; font-family:'Courier New', Courier, monospace; margin-left: 10%; font-size: 18px; color: #000000;">
+                            <strong>GRAB YOUR SCHOLARSHIP THROUGH US...</strong>
+                        </p>
+
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s"
+                            style="margin-top: 1px;" src="{% static 'img/std.png' %}" style="object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br><br>
+    <!-- About End -->
+
+
+    <!-- Scholarship Exam Date Start -->
+
+    <div class="text-center ">
+        <h1 style="color: rgb(3, 158, 114);"><u> Upcoming <a href="#"
+                    style="color: rgb(250, 104, 0); text-decoration: none;">Examinations</a></u></h1>
+    </div>
+    <div class="container-fluid py-3 wow fadeInUp" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-5" style="height: 350px;">
+                    <div class="position-relative h-100">
+                        <img class="position-relative w-100 h-100 rounded wow zoomIn" data-wow-delay="0.2s"
+                            src="{% static 'img/boy.png' %}" style="object-fit:cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 py-5">
+                    <div class="items">
+
+                        <div class="item active " style="background: linear-gradient(135deg, #ffffff 15%, #ffffff 80%);">
+                            <img src="{% static 'img/navyojan.png' %}" alt=""
+                                style=" max-width: 100%; object-fit: contain; box-shadow: 0 10px 20px rgb(147, 147, 147);">
+                        </div>
+
+                        {% for i in xam %}
+                        <div class="item next text-center p-2"
+                            style="background: linear-gradient(135deg, #5dc6cff5 15%, #9b0134ce 80%); object-fit: contain;">
+                             <h5 style="color: #ffffff;  object-fit: contain;">{{i.xam_date}} </h5>
+                            
+                            <br>
+                            <h5 style=" color: #ffffff; object-fit: contain;" >{{i.xam_name}} </h5>
+                            
+                            <!-- <p>Discription : Entrance exam for ...... students. </p> -->
+                            <!--<h4 style=" color: #ffffff;object-fit: contain;">Good Luck</h4>-->
+                        </div>
+                        {% endfor %}
+                        <div class=" item prev text-light p-2 "
+                            style="background: linear-gradient(135deg, #ffffff 15%, #ffffff 80%);">
+                            <img src="{% static 'img/navyojan.png' %}" alt=""
+                                style=" max-width: 100%; object-fit: contain;">
+                            
+                        </div>
+
+                        <div class="button-container">
+                            <div class="button"><i class="fas fa-angle-left"></i></div>
+                            <div class="button"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scholarship Exam Date End -->
+
+    <!-- Steps To Follow Start -->
+    <div class="container-fluid py-5  wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <!-- <h5 class="fw-bold text-primary text-uppercase">Our Services</h5> -->
+                <h1 style="color: rgb(3, 158, 114);" class="mb-0"><u>Steps to Follow to Get a </u> <a href=""
+                        style="color: rgb(250, 104, 0); text-decoration: none;"><u>Scholarship</u> </a> </h1>
+            </div>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                <div class=" wow zoomIn" data-wow-delay="0.3s">
+                    <div class="col">
+                        <div
+                            class="service-item  d-flex flex-column align-items-center justify-content-center text-center">
+                            <div class="service-icon">
+                                <i class="fa fa-shield-alt text-white"><img style="width: 60px; height: 70px;"
+                                        src="{%static 'img/Step1.png' %}" alt="Step-1"></i>
+                            </div>
+                            <h4 class="mb-3"> Step 1: Registration</h4>
+                            <p class="m-0">Welcome! Let's get started by creating your account. Please provide a
+                                Username, E-mail & Password to get Register</p>
+                            <a class="btn btn-lg btn-primary " href="{% url 'registration_app:register'%}">
+                                <i class="bi bi-arrow-right" style="color:rgb(255, 255, 255);"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" wow zoomIn" data-wow-delay="0.6s">
+                    <div class="col">
+                        <div
+                            class="service-item   d-flex flex-column align-items-center justify-content-center text-center">
+                            <div class="service-icon">
+                                <i class="fa fa-shield-alt text-white"><img style=" width: 75px; height: 70px;"
+                                        src="{%static 'img/Step-2.png' %}" alt="Step-2"></i>
+                            </div>
+                            <h4 class="mb-3">Step 2: Profile Setup</h4>
+                            <p class="m-0">Let's personalize your profile. Fill out the form with your personal
+                                information. This helps us serve you better.</p>
+                            <a class="btn btn-lg btn-primary " href="#">
+                                <i class="bi bi-arrow-right" style="color:rgb(255, 255, 255);"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" wow zoomIn" data-wow-delay="0.9s">
+                    <div class="col">
+                        <div
+                            class="service-item   d-flex flex-column align-items-center justify-content-center text-center">
+                            <div class="service-icon">
+                                <i class="fa fa-shield-alt text-white"><img style="width: 60px; height: 60px;"
+                                        src="{%static 'img/plan-logo-3.jpg' %}" alt="Step-3"></i>
+                            </div>
+                            <h4 class="mb-3">Step 3: Choose Your Plan</h4>
+                            <p class="m-0">Choose a plan that best suits your needs. We offer various plans with
+                                different features and benefits.</p>
+                            <a class="btn btn-lg btn-primary " href="#Plans">
+                                <i class="bi bi-arrow-right" style="color:rgb(255, 255, 255);"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" wow zoomIn" data-wow-delay="0.9s">
+                    <div class="col">
+                        <div
+                            class="service-item   d-flex flex-column align-items-center justify-content-center text-center">
+                            <div class="service-icon">
+                                <i class="fa fa-shield-alt text-white"><img style="width: 60px; height: 60px;"
+                                        src="{%static 'img/Step-4.png' %}" alt="Step-4"></i>
+                            </div>
+                            <h4 class="mb-2">Step 4: Apply for Scholarship</h4>
+                            <p class="m-0">If you're looking for financial aid, You can apply for a scholarship. Provide
+                                the necessary information & documents.</p>
+                            <a class="btn btn-lg btn-primary " href="#Schoarships">
+                                <i class="bi bi-arrow-right" style="color:rgb(255, 255, 255);"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Steps To Follow End -->
+
+    <!-- Pricing Plan Start -->
+    <!-- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-dark text-uppercase">Our Plans</h5>
+                <h1 style="color:rgb(3, 81, 114);" class="mb-0">We Are Offering Competitive <a href=""
+                        style="color: rgb(228, 100, 1); text-decoration: none;">Plans</a> For Our Clients</h1>
+            </div>
+            <div class="row g-0">
+                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
+                    <div class="bg-light rounded ">
+                        <div class="border-bottom py-4 px-5 mb-4">
+                            <h4 class=" mb-1" style="color:rgb(1, 250, 151);">Basic Plan</h4>
+                             <small class="text-uppercase"></small> 
+                        </div>
+                        <div class="p-5 pt-0">
+                            <h1 class="display-5 mb-3">
+                                 <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>00.00<small
+                                class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
+                            </h1>
+                            <div class="d-flex justify-content-between mb-3"><span>Access to Exclusive
+                                    Scholarships</span></div>
+                            <div class="d-flex justify-content-between mb-3"><span>Personalized Scholarship
+                                    Recommendations</span></div>
+                            <div class="d-flex justify-content-between mb-2"><span>Priority Support</span></div>
+                            <a href="" class="btn btn-primary py-2 px-4 mt-4"
+                                style="color:rgb(255, 255, 255); background-color:rgb(1, 250, 151);">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
+                    <div class="bg-white rounded shadow position-relative" style="z-index: 1;">
+                        <div class="border-bottom py-4 px-5 mb-4">
+                            <h4 class=" mb-1" style="color: rgb(3, 81, 114);">Premium Plan</h4>
+                            <small class="text-uppercase">For Medium Size Business</small>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <h1 class="display-5 mb-3">
+                                 <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>00.00<small
+                                class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
+                            </h1>
+                            <div class="d-flex justify-content-between mb-3"><span>Access to Exclusive
+                                    Scholarships</span></div>
+                            <div class="d-flex justify-content-between mb-3"><span>Personalized Scholarship
+                                    Recommendations</span></div>
+                            <div class="d-flex justify-content-between mb-2"><span>Priority Support</span></div>
+                            <a href="" class="btn btn-primary py-2 px-4 mt-4"
+                                style="color:rgb(255, 255, 255);background-color:rgb(3, 81, 114);">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.9s">
+                    <div class="bg-light rounded">
+                        <div class="border-bottom py-4 px-5 mb-4">
+                            <h4 class=" mb-1" style="color: rgb(3, 138, 200);">Standerd Plan</h4>
+                            <small class="text-uppercase">For Large Size Business</small>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <h1 class="display-5 mb-3">
+                                 <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>000.00<small
+                                class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
+                            </h1>
+                            <div class="d-flex justify-content-between mb-3"><span>Access to Exclusive
+                                    Scholarships</span></div>
+                            <div class="d-flex justify-content-between mb-3"><span>Personalized Scholarship
+                                    Recommendations</span></div>
+                            <div class="d-flex justify-content-between mb-2"><span>Priority Support</span></div>
+                            <a href="" class="btn btn-primary py-2 px-4 mt-4"
+                                style="color:rgb(255, 255, 255);background-color:rgb(3, 138, 200);">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Pricing Plan End -->
+
+    <!-- Upcoming Scholarships -->
+
+    <div class="container-fluid py-1 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <!-- <h5 class="fw-bold text-primary text-uppercase">Our Services</h5> -->
+                <h1 style="color: rgb(3, 158, 114);" class="mb-0"><u>Upcoming</u> <a href=""
+                        style="color:rgb(250, 104, 0);text-decoration: none;"><u>Scholarships</u> </a><u></u> </h1>
+            </div>
+            <div class="owl-carousel  testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
+
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">General</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong> General Category Offer 1000+ Upcoming Scholarships</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Sports Talent</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong>1000+ Upcoming Scholarships In Sports Category</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Merit Based</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong> 1000+ Upcoming Scholarships In Merit Base </strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Physically Disabled</h3>
+                    <div class="pt-0 pb-3 px-5">
+                        <span><strong> 1000+ Upcoming Scholarships For Physically Disabled People</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">SC/ST Category</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong>1000+ Upcoming Scholarships For SC/ST Category</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">OBC Category</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong>1000+ Upcoming Scholarships In OBC Category</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Income Based</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong> 1000+ Upcoming Scholarships In Income Based</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Cultural Talent</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong>1000+ Upcoming Scholarships In Cultural Talent</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+                <div class="testimonial-item1  my-5 ">
+                    <h3 class="text-uppercas text-center mt-3 ">Literary Art</h3>
+                    <div class="pt-4 pb-3 px-5">
+                        <span><strong>1000+ Upcoming Scholarships In Literary Art</strong></span><br>
+                        <span><strong>Reward : Rs</strong>₹₹₹₹₹</span><br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonial Start -->
+    <div class="container-fluid py-1 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 600px;">
+                <!-- <h5 class="fw-bold text-primary text-uppercase">Our Services</h5> -->
+                <h1 style="color: rgb(3, 158, 114);" class="mb-0"><u>Latest</u> <a href=""
+                        style="color:rgb(250, 104, 0);text-decoration: none;"><u>Scholarship</u>
+                    </a><u>Notifications</u> </h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
+                {% for i in scholar %}
+                <div class="testimonial-item  my-5"
+                    style="background: linear-gradient(135deg, #029a77 40%, #019460 90%);">
+                    <div class="d-flex align-items-center  ">
+                        <img class="img-fluid " src="{{ i.Scholarship_logo.url }}"
+                            style="width: 100px; height: 100px; object-fit: contain; margin-top: -35px; border-radius: 50%; border: 10px solid #f28016; margin-left: 100px; background: rgb(255, 255, 255);">
+                    </div>
+                    <h4 class="text-uppercase text-center mt-1 border-bottom ">{{ i.Scholarship_name }}</h4>
+                    <div class="pt-4 pb-5 px-5">
+                        <span>Offerd By : <strong>{{ i.Offered_by }}</strong> </span><br>
+                        <span>Reward : <strong>Rs{{ i.Award }}</strong></span><br>
+                        <span>Deadline : <strong>{{ i.Dead_line }}</strong> </span><br>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+
+    </style>
+    <!--Testimonial End -->
+
+    <!-- Vendor Start -->
+    <!-- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5 mb-5">
+            <div class="bg-white">
+                <div class="owl-carousel vendor-carousel">
+                    <img src="img/vendor-1.jpg" alt="">
+                    <img src="img/vendor-2.jpg" alt="">
+                    <img src="img/vendor-3.jpg" alt="">
+                    <img src="img/vendor-4.jpg" alt="">
+                    <img src="img/vendor-5.jpg" alt="">
+                    <img src="img/vendor-6.jpg" alt="">
+                    <img src="img/vendor-7.jpg" alt="">
+                    <img src="img/vendor-8.jpg" alt="">
+                    <img src="img/vendor-9.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Vendor End -->
+    <div class="row g-0 mb-3 ">
+        <div class="col-sm-3 wow zoomIn" data-wow-delay="0.2s">
+            <h5 class="mb-3 ms-3  "><i class="fa fa-check text-dark me-3"></i>Latest Scholarships</h5>
+        </div>
+        <div  class="col-sm-3 wow zoomIn" data-wow-delay="0.2s">            
+            <h5 class="mb-3 ms-3  "><i class="fa fa-check text-dark me-3"></i>Professional Staff</h5>
+        </div>
+        <div  class="col-sm-3 wow zoomIn" data-wow-delay="0.2s">
+            <h5 class="mb-3 ms-3 "><i class="fa fa-check text-dark me-3"></i>24/7 Support</h5>
+        </div>
+        <div class="col-sm-3 wow zoomIn" data-wow-delay="0.4s">
+            <h5 class="mb-3 ms-3 "><i class="fa fa-check text-dark me-3"></i>Fair Plans</h5>
+        </div>
+    </div>
+    {% endblock %}
+    <!-- Footer Start -->
+    <div class="container-fluid text-light mt-5 wow fadeInUp" data-wow-delay="0.1s"
+        style="background: linear-gradient(135deg, #014a71  15%, #015459f5 80%);">
+    
+        <div class="container">
+            <div class="row gx-5">
+                <div class="col-lg-12 col-md-6">
+                    <div class="row gx-5">
+                        <div class="col-lg-4 col-md-12 pt-5 mb-4">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Get In Touch</h3>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-geo-alt text-light me-2"></i>
+                                <p class="mb-0">Navyojan 
+                                    897/E, <br> Yamaha Building, 4th floor, 6th block,<br> Koramangala
+                                    560095 Bangalore KA
+                                    India</p>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-envelope-open text-light me-2"></i>
+                                <p class="mb-0">info@navyojan.in</p>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <i class="bi bi-telephone text-light me-2"></i>
+                                <p class="mb-0">+91 8592099199</p>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <a href="{% url 'registration_app:home' %}"><img src="{% static 'img/navyojan.png'%}"
+                                        alt=""
+                                        style="max-width: 170px; padding: 5px; max-height: 80px; background-color: rgb(255, 255, 255); border-radius: 9px;"></a>
+    
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-4">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Quick Links</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}"><i
+                                        class="bi bi-arrow-right text-light  me-2"></i>Home</a>
+                                <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}"><i
+                                        class="bi bi-arrow-right text-light  me-2"></i>About Us</a>
+                                <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}">
+                                    <i class="bi bi-arrow-right text-light  me-2"></i>Our Services</a>
+                                <a class="text-light mb-2" href="{% url 'Scholarshipapp:scholar_page' %}"><i
+                                        class="bi bi-arrow-right text-light  me-2"></i>Scholarships</a>
+                                <a class="text-light" href="{% url 'Contact_app:contact' %}"><i
+                                        class="bi bi-arrow-right text-light  me-2"></i>Contact Us</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-4">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Social Links</h3>
+                            </div>
+                            <div class="link-animated ">
+                                <div class=" mt-4">
+                                    <div class="d-flex ">
+                                        <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                                class="fab fa-twitter fw-normal"></i></a>- Twitter
+                                    </div>
+                                    <div class="d-flex">
+                                        <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                                class="fab fa-facebook-f fw-normal"></i></a>- Facebook
+                                    </div>
+                                    <div class="d-flex">
+                                        <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                                class="fab fa-linkedin-in fw-normal"></i></a>- LinkedIn
+                                    </div>
+                                    <div class="d-flex">
+                                        <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                                class="fab fa-instagram fw-normal"></i></a>- Instagram
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-md-6">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <p class="mb-1">&copy; <a class="text-white text-center me-3"
+                                            href="#">www.navyojan.in</a>All Rights Reserved.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer End -->
+    
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+    
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+   
+    
+    <script>
+        function highlightSearch() {
+            // Clear previous highlights
+            document.querySelectorAll('.highlight').forEach(el => {
+                el.outerHTML = el.innerHTML; // Remove highlight by replacing the outer HTML with the inner HTML
+            });
+    
+            const searchText = document.getElementById('searchText').value.trim().toLowerCase();
+            if (searchText === "") return;
+    
+            const escapedText = searchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape special characters
+            const regex = new RegExp("(" + escapedText + ")", 'gi');
+            const body = document.body;
+    
+            highlightTextNodes(body, regex);
+        }
+    
+        function highlightTextNodes(node, regex) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.nodeValue.trim();
+                if (regex.test(text)) {
+                    const span = document.createElement('span');
+                    span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+                    node.parentNode.insertBefore(span, node.nextSibling);
+                    node.parentNode.removeChild(node);
+                }
+            } else {
+                node.childNodes.forEach(childNode => highlightTextNodes(childNode, regex));
+            }
+        }
+    </script> 
+    </body>
+    </html>

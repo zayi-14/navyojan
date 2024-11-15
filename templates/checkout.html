@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Your package</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script type="text/javascript">
+        function assignIntegerValue(amount) {
+            // Update the value of the input field with the selected plan's amount
+            document.getElementById("selectedPlan").value = amount;
+        }
+
+        // Create an instance of the Stripe object with your publishable API key
+        var stripe = Stripe('pk_test_51OhpkLSFLsVRfVg4DPOoDsW1rMjhSgQR3RrePJGKrK2RqLLNNRofpMioClzqNIck9aHSselfD7IAf7SmEA0boIJC00J2x3exAT');
+        var checkoutButton = document.getElementById('checkout-button');
+
+        checkoutButton.addEventListener('click', function () {
+            // Create a new Checkout Session using the server-side endpoint you
+            // created in step 3.
+            fetch('/create-checkout-session/', {
+                method: 'POST',
+            })
+                .then(function (response) {
+                    alert("From response");
+                    return response.json();
+                })
+                .then(function (session) {
+                    alert("From session");
+                    return stripe.redirectToCheckout({sessionId: session.id});
+                })
+                .then(function (result) {
+                    // If `redirectToCheckout` fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using `error.message`.
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+
+    </script>
+</head>
+<body>
+<div class="container" style="background-color:white">
+    {% if user.is_authenticated %}
+    <h1>Hello {{user.username}} choose your package</h1>
+    <div class="btn-group" role="group" aria-label="Basic example1">
+        <button type="button" class="btn btn-secondary" style="background-color:#ADBB16; border-radius: 10px;font-size:14px; position:left;width : 315px;">Your Plans </button>
+    </div>
+    <br><br>
+    <div class="btn-group" role="group" aria-label="Basic example2">
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(199)" style="background-color: #4747d1; font-size:14px;border-radius: 20px 0 0 20px;">Premium account<br>199/-<i class="fa-regular fa-user"></i> </button>
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(199)" style="background-color: #4747d1; font-size:10px;border-radius: 0 20px 20px 0;">Browse & Apply for your scholarship </button>
+    </div>
+    <br><br>
+    <div class="btn-group" role="group" aria-label="Basic example3">
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(145)" style="background-color: #00cc00; font-size:14px;border-radius: 20px 0 0 20px;">Standard account<br>149/- <i class="fa-solid fa-user-check"></i> </button>
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(145)" style="background-color: #00cc00; font-size:10px;border-radius: 0 20px 20px 0;">Browse & Apply for your scholarship  <br> Filters your fittest scholarships </button>
+    </div>
+    <br><br>
+    <div class="btn-group" role="group" aria-label="Basic example4">
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(245)" style="background-color: #cc3399; font-size:14px;border-radius: 20px 0 0 20px;">Standard account<br>245/ -<i class="fa-solid fa-user-graduate"></i> </button>
+        <button type="button" class="btn btn-secondary" onclick="assignIntegerValue(245)" style="background-color: #cc3399; font-size:10px;border-radius: 0 20px 20px 0;">Browse & Apply for your scholarship  <br> Filters your fittest scholarships </button>
+    </div>
+    <br><br>
+    <form method="post" action="{% url 'registration_app:create_checkout_session' %}">
+        {% csrf_token %}
+        <input type="number" step="0.01" name="selectedPlan" id="selectedPlan" readonly>
+        <input type="number"  name="userid" id="userid" value="{{ user.id }}" readonly>
+        <button type="submit" class="btn btn-lg btn-primary" id="checkout-button">Checkout</button>
+    </form>
+    {% else %}
+         print("not valid user")
+    {% endif %}
+</div>
+</body>
+</html>

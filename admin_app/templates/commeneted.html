@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Navyojan</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Carousel Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark px-2 py-3 py-lg-0">
+            <a href="{% url 'registration_app:home' %}" class="navbar-brand ms-4 "><img
+                    src="{% static 'img/navyojan.png'%}" alt="Navyojan Logo" width="100%" height="50px"></a>
+            <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="nav-item ms-auto py-0 navbar-nav dropdown">
+                    <a href="#" class="nav-link nav-item dropdown-toggle " data-bs-toggle="dropdown">All
+                        Scholarships</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 350px; border-radius: 10px;">
+                        {% for allscholarship in allscholarship %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?all_scholarship={{ allscholarship.All_Scholarship }}"
+                                class="dropdown-item">{{ allscholarship.All_Scholarship }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="nav-item navbar-nav dropdown">
+                    <a href="#" class="nav-link dropdown-toggle dropdown-btn" data-bs-toggle="dropdown">States</a>
+                    <div class="dropdown-content dropdown-menu m-0"
+                        style="max-width: 500px; max-height: 350px;border-radius: 10px;">
+                        <ul>
+                            {% for state in states %}
+                            <li><a href="{% url 'Scholarshipapp:scholar_page' %}?state={{ state.States }}"
+                                    class="dropdown-item">{{ state.States }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="nav-item navbar-nav  dropdown">
+                    <a href="#" class="nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 300px;border-radius: 10px;">
+                        {% for category in s_category %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?category={{ category.S_Category }}"
+                                class="dropdown-item">{{ category.S_Category }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="nav-item navbar-nav  dropdown">
+                    <a href="#" class="nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown">Education</a>
+                    <div class="dropdown-menu dropdown-content m-0"
+                        style="max-width: 300px; max-height: 250px;border-radius: 10px;">
+                        {% for education in education %}
+                        <li><a href="{% url 'Scholarshipapp:scholar_page' %}?education={{ education.Education }}"
+                                class="dropdown-item">{{ education.Education }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+                <div class="navbar-nav">
+                    <a href="{% url 'Contact_app:contact' %}" class="nav-item nav-link ">Contact</a>
+
+                    {% if request.session.user_id %}
+                    <a href="{% url 'Scholarshipapp:profile' %}" class="nav-item nav-link"><i
+                            class="fa fa-user-tie "></i></a>
+                    <a href="{% url 'registration_app:logout' %}" class="nav-item nav-link">Logout</a>
+                    {% else %}
+                    <a href="{% url 'registration_app:new_login' %}" class="nav-item nav-link"><i
+                            class="fa-solid fa-right-to-bracket fa-xl "></i>
+                        &nbsp;&nbsp;&nbsp;</a>
+                    <!-- <a href="{% url 'registration_app:register' %}" class="nav-item nav-link">Register</a> -->
+                    {% endif %}
+                </div>
+                <!-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></butaton> -->
+                <!-- <a href="https://htmlcodex.com/startup-company-website-template" class="btn btn-primary py-2 px-4 ms-3">Download Pro Version</a> -->
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar end -->
+    {% block content %}
+
+
+
+
+
+
+{% endblock %}
+<!-- Footer Start -->
+<div class="container-fluid text-light mt-5 wow fadeInUp" data-wow-delay="0.1s"
+    style="background: linear-gradient(135deg, #014a71  15%, #015459f5 80%);">
+
+    <div class="container">
+        <div class="row gx-5">
+            <div class="col-lg-12 col-md-6">
+                <div class="row gx-5">
+                    <div class="col-lg-4 col-md-12 pt-5 mb-4">
+                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                            <h3 class="text-light mb-0">Get In Touch</h3>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-geo-alt text-dark me-2"></i>
+                            <p class="mb-0">Navyojan 
+                                897/E, <br> Yamaha Building, 4th floor, 6th block,<br> Koramangala
+                                560095 Bangalore KA
+                                India</p>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-envelope-open text-dark me-2"></i>
+                            <p class="mb-0">info@navyojan.in</p>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-telephone text-dark me-2"></i>
+                            <p class="mb-0">+91 8592099199</p>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <a href="{% url 'registration_app:home' %}"><img src="{% static 'img/navyojan.png'%}"
+                                    alt=""
+                                    style="max-width: 170px; padding: 5px; max-height: 80px; background-color: rgb(255, 255, 255); border-radius: 9px;"></a>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-4">
+                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                            <h3 class="text-light mb-0">Quick Links</h3>
+                        </div>
+                        <div class="link-animated d-flex flex-column justify-content-start">
+                            <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}"><i
+                                    class="bi bi-arrow-right text-dark  me-2"></i>Home</a>
+                            <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}"><i
+                                    class="bi bi-arrow-right text-dark  me-2"></i>About Us</a>
+                            <a class="text-light mb-2" href="{% url 'Scholarshipapp:allscholarship' %}"><i class="bi bi-arrow-right text-dark  me-2"></i>Our
+                                Services</a>
+                            <a class="text-light mb-2" href="{% url 'Scholarshipapp:scholar_page' %}"><i
+                                    class="bi bi-arrow-right text-dark  me-2"></i>Scholarships</a>
+                            <a class="text-light" href="{% url 'Contact_app:contact' %}"><i
+                                    class="bi bi-arrow-right text-dark  me-2"></i>Contact Us</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-4">
+                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                            <h3 class="text-light mb-0">Social Links</h3>
+                        </div>
+                        <div class="link-animated ">
+                            <div class=" mt-4">
+                                <div class="d-flex ">
+                                    <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                            class="fab fa-twitter fw-normal"></i></a>- Twitter
+                                </div>
+                                <div class="d-flex">
+                                    <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                            class="fab fa-facebook-f fw-normal"></i></a>- Facebook
+                                </div>
+                                <div class="d-flex">
+                                    <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                            class="fab fa-linkedin-in fw-normal"></i></a>- LinkedIn
+                                </div>
+                                <div class="d-flex">
+                                    <a class="btn btn-light btn-square mb-2 me-2" href="#"><i
+                                            class="fab fa-instagram fw-normal"></i></a>- Instagram
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-md-6">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <p class="mb-1">&copy; <a class="text-white text-center me-3"
+                                        href="#">www.navyojan.in</a>All Rights Reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile Image</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Profile Image</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    {% if user_profile and user_profile.u_image %}
+                        <img src="{{ user_profile.u_image.url }}" alt="Profile Image" class="img-fluid">
+                    {% else %}
+                        <p>No profile image available.</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="u_image">Upload New Profile Image</label>
+                        <input type="file" name="u_image" class="form-control" id="u_image" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary w-100 py-3" type="submit">Update Image</button>
+                </div>
+            </div>
+        </form>
+        
+        <a href="{% url 'Scholarshipapp:user_profile_page' %}" class="btn btn-secondary mt-3">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+{% extends 'content_home.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarships</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 17%;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 12px 14px 0 rgba(147, 148, 148, 0.864);
+            padding: 20px;
+        }
+
+        .card img {
+            margin-top: 10%;
+            max-width: 100%;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 50px;
+        }
+
+        .card .text {
+            flex: 1;
+        }
+
+        .card .text p {
+            margin: 5px 0;
+        }
+
+        .filter-section {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 12px 14px 0 rgba(168, 169, 168, 0.86);
+            padding: 20px;
+            position: fixed;
+            top: 22%;
+            right: 20px;
+            max-width: 250px;
+        }
+
+        .filter-section input {
+            width: calc(100% - 20px);
+            margin: 10px 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .filter-section button {
+            padding: 5px 15px 5px 15px;
+            background-color: #03a471;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .filter-section button:last-child {
+            background-color: #bd0202;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                position: static;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+
+        .sidebar {
+            border-radius: 10px;
+            background: linear-gradient(135deg, #016a85 20%, #0796ca 100%);
+            box-shadow: 0 12px 14px 0 rgba(135, 135, 135, 0.852);
+            color: #fff;
+            padding: 15% 0 30% 0;
+            position: relative;
+            text-align: center;
+            margin-bottom: 10px;
+
+        }
+
+        .sidebar .date,
+        .sidebar .date-location,
+        .sidebar .days-left {
+            margin: 20px 0;
+        }
+
+        .sidebar .date .published,
+        .sidebar .date .deadline {
+            display: block;
+        }
+
+        .sidebar .date-location {
+            background: #3e6a6ee1;
+            border-radius: 5px;
+            padding: 3%;
+            display: inline-block;
+        }
+
+        .sidebar .days-left {
+            background: #ffffff;
+            color: #000000;
+            border-radius: 5px;
+            padding: 6px 10px;
+            position: absolute;
+            margin-top: 23%;
+            left: 50%;
+            transform: translateX(-50%);
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 mt-3">
+                <h1 class="text-uppercase"><a href="#"
+                    style="color: rgba(41, 40, 40, 0.851); text-decoration: none; margin-left: 35%;"><u>Scholarships</u></a></u></h1>
+
+                <div class="filter-section mt-5">
+                            <h4>Filter</h4>
+                            <form id="filterForm" method="GET" action="{% url 'Scholarshipapp:scholarship_list' %}">
+                                <input type="text" id="scholarship_name" name="scholarship_name" placeholder="Scholarship Name" value="{{ request.GET.scholarship_name }}">
+                                <input type="date" id="deadline" name="deadline" placeholder="Deadline" value="{{ request.GET.deadline }}">
+                                <button type="submit">Apply</button>
+                                <button type="submit" name="clear">Clear</button>
+    
+                            </form>
+                        </div>
+                {% for scholarship in scholarships %}
+<section>
+    <div class="main-content">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <img src="{{ scholarship.Scholarship_logo.url }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ scholarship.Scholarship_name }}</strong></h5>
+                        <p class="card-text"><strong>Offered by:</strong> {{ scholarship.Offered_by }}</p>
+                        <p class="card-text"><strong>Award:</strong> Rs {{ scholarship.Award }}</p>
+                        <p class="card-text"><strong>Eligibility:</strong></p>
+                        <ul>
+                            <!-- <li><strong>States    :</strong> {% for state in scholarship.States.all %}{{ state.States }}{% if not forloop.last %}, {% endif %}{% endfor %}</li> -->
+                            <li><strong>Categories:</strong> {% for category in scholarship.S_Category.all %}{{ category.S_Category }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+                            <li><strong>Education :</strong> {% for education in scholarship.Education.all %}{{ education.Education }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+                            <li><strong>Type:</strong> {% for all_scholarship in scholarship.All_Scholarship.all %}{{ all_scholarship.All_Scholarship }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+                        </ul>
+                        <!-- <p class="card-text"><strong>Description:</strong>{{ scholarship.Scholar_Description }}</p> -->
+                        <p class="card-text "><small class="text-body-secondary">Last updated {{ scholarship.Time_field }} ago&nbsp;&nbsp;&nbsp;</small>
+                            <a href="{% url 'Scholarshipapp:apply_scholar' scholarship.id %}">
+                                <button type="submit" class="btn ms-4" style="background: linear-gradient(135deg, #016a85 20%, #0796ca 100%);color: #fff;">View Now</button></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="container">
+                <h5 class="text-center"><strong>DATE</strong></h5>
+                <div class="date">
+                    <div class="published">
+                        <strong>Published on</strong> - {{ scholarship.Published_date }}
+                    </div>
+                    <div class="deadline">
+                        <strong>Deadline</strong> - {{ scholarship.Dead_line }}
+                    </div>
+                </div>
+                <div class="date-location">
+                    {% for state in scholarship.States.all %}{{ state.States }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                </div>
+                <div class="days-left">
+                    {% if scholarship.days_left is not None %}
+                        {{ scholarship.days_left }} days left
+                    {% else %}
+                        No deadline specified.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+
+</html>
+
+

@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" >
+    <title>FAQs</title>
+</head>
+<body>
+    <div class="container-fluid m-0 p-0">
+    {% include 'navbar.html' %}
+    {% block content %}
+        <h1>Frequently Asked Questions</h1>
+        <ul>
+            {% for faq in faqs %}
+                <li>
+                    <h6>{{ faq.question }}</h6>
+                    <p>{{ faq.answer }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
+    {% include 'footer.html' %}
+    </div>
+</body>
+</html>

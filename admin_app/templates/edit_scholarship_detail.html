@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="{% static 'img/Navyojan Logoicon (1).png' %}" type="image/x-icon">
+  <title>Edit Scholarship Detail</title>
+  <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'admin/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'admin/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+  <link href="{% static 'admin/vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
+  <link href="{% static 'admin/vendor/clock-picker/clockpicker.css' %}" rel="stylesheet">
+  <link href="{% static 'admin/css/ruang-admin.min.css' %}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+  
+        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4" >
+           
+            
+          </div>
+
+          <div class="row" style="margin: 10px;">
+            <div class="col-lg-12 mb-4">
+              <!-- Edit Form -->
+              <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary" >Edit Scholarship Detail</h6>
+                </div>
+                <div class="card-body">  
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label for="scholarship_logo" class="col-sm-3 col-form-label">Scholarship logo</label>
+                            <div class="col-sm-9">
+                                {{ form.Scholarship_logo }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="scholarship_name" class="col-sm-3 col-form-label">Scholarship Name</label>
+                            <div class="col-sm-9">
+                                {{ form.Scholarship_name }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="offered_by" class="col-sm-3 col-form-label">Offered By</label>
+                            <div class="col-sm-9">
+                                {{ form.Offered_by }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="award" class="col-sm-3 col-form-label">Award</label>
+                            <div class="col-sm-9">
+                                {{ form.Award }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="category" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                {{ form.S_Category }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="education" class="col-sm-3 col-form-label">Education</label>
+                            <div class="col-sm-9">
+                                {{ form.Education }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="all_scholarship" class="col-sm-3 col-form-label">All Scholarship Types</label>
+                            <div class="col-sm-9">
+                                {{ form.All_Scholarship }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="states" class="col-sm-3 col-form-label">States</label>
+                            <div class="col-sm-9">
+                                {{ form.States }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="published_date" class="col-sm-3 col-form-label">Published Date</label>
+                            <div class="col-sm-9">
+                                {{ form.Published_date }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dead_line" class="col-sm-3 col-form-label">Deadline</label>
+                            <div class="col-sm-9">
+                                {{ form.Dead_line }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="scholar_description" class="col-sm-3 col-form-label">Scholar Description</label>
+                            <div class="col-sm-9">
+                                {{ form.Scholar_Description }}
+                            </div>
+                        </div>                        
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="{% url 'admin_app:scholarship_detail_table' %}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </form>      
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Row-->
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---Container Fluid-->
+      </div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+                  <b><a href="http://extramindtech.com"  target="_blank">ExtraMindTech</a></b>
+                </span>
+              </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+    </div>
+  </div>
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'admin/js/ruang-admin.min.js' %}"></script>
+  <script src="{% static 'admin/vendor/select2/dist/js/select2.min.js' %}"></script>
+  <script src="{% static 'admin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'admin/vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
+  <script src="{% static 'admin/vendor/clock-picker/clockpicker.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+      $('.select2-single').select2();
+
+      // Select2 Single with Placeholder
+      $('.select2-single-placeholder').select2({
+        placeholder: "Select a State",
+        allowClear: true
+      });
+
+      // Select2 Multiple
+      $('.select2-multiple').select2();
+
+      // Bootstrap Date Picker
+      $('#simple-date1 .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        todayHighlight: true,
+        autoclose: true,
+      });
+
+      $('#simple-date2 .input-group.date').datepicker({
+        startView: 1,
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        todayBtn: 'linked',
+      });
+
+      $('#simple-date3 .input-group.date').datepicker({
+        startView: 2,
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        todayBtn: 'linked',
+      });
+
+      $('#simple-date4 .input-group.date').datepicker({
+        startView: 3,
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        todayBtn: 'linked',
+      });
+
+      $('.clockpicker').clockpicker({
+        donetext: 'Done'
+      });
+
+      // TouchSpin
+      $('#touchSpin1').TouchSpin({
+        min: 0,
+        max: 100,
+        boostat: 5,
+        maxboostedstep: 10,
+        postfix: '%',
+      });
+
+      $('#touchSpin2').TouchSpin({
+        min: 0,
+        max: 100,
+        decimals: 2,
+        step: 0.1,
+        postfix: '$',
+      });
+
+      $('#touchSpin3').TouchSpin();
+
+      $('#touchSpin4').TouchSpin({
+        verticalbuttons: true,
+        verticalupclass: 'fa fa-plus',
+        verticaldownclass: 'fa fa-minus',
+      });
+
+      $('#touchSpin5').TouchSpin({
+        verticalbuttons: true,
+        verticalupclass: 'fas fa-chevron-up',
+        verticaldownclass: 'fas fa-chevron-down',
+        postfix: 'a button',
+      });
+
+      $('#clockPicker1').clockpicker({
+        donetext: 'Done'
+      });
+
+      $('#clockPicker2').clockpicker({
+        autoclose: true
+      });
+
+      let input = $('#clockPicker3').clockpicker({
+        autoclose: true,
+        'default': 'now',
+        placement: 'top',
+        align: 'left',
+        donetext: 'Done'
+      });
+
+      $('#check-minutes').click(function (e) {
+        // Have to stop propagation here
+        e.stopPropagation();
+        input.clockpicker('show').clockpicker('toggleView', 'minutes');
+      });
+
+      if ($('#datemask').length) {
+        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+      }
+
+      if ($('#datemask2').length) {
+        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+      }
+
+      if ($('[data-mask]').length) {
+        $('[data-mask]').inputmask();
+      }
+    });
+  </script>
+</body>
+
+</html>
+
